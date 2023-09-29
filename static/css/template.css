@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Arima:wght@500&display=swap');
+
+body{
+    background-color: #FFEDDE;
+    font-family: 'Arima', cursive;    
+}
+
+.bi{
+    font-size: x-large;
+}
+
+.buttonA {
+    /* background-color: #007bff;  */
+    cursor: pointer;
+    align-items: center;
+    display:grid;
+    align-items: center;
+    justify-items: center;
+    cursor: pointer; 
+    border: none; 
+    background: none;
+}
+
+input[name="myfield"] {
+    background-color: #FFEDDE; 
+    border: none; 
+    outline: none;
+}

@@ -1,0 +1,2137 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexCharts Example</title>
+
+    <!-- 引入 Bootstrap 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+
+    <!-- 引入 jQuery（不一定需要，取決於你的使用情境）-->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- 引入 @popperjs/core 和 Bootstrap 的 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+
+    <!-- 引入 ApexCharts 的 CSS 和 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <!--BS ICON-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <!-- FONT awsome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- 引入 ECharts 的 JavaScript 文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.1.2/echarts.min.js"></script>
+    <!-- 引入twitter -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <!-- 引入專屬CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+    <div class="container-lg" style="margin-left: 13%; margin-top: 13%;">
+
+
+        <div class="row">
+            <div class="col-2">
+                Select to display
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle text-start" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" style="width: 100%; background: #D9D9D9;color: #3a3a3a;">
+                        <span id="dropdownButtonLabel">---------------</span>
+                    </button>
+                    <ul class="dropdown-menu" id="dropdown-menu1">
+                        <li class="dropdown-submenu form-check m-2" style="position: relative; text-align: center;">
+                            <input type="checkbox" class="form-check-input select-all">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                style="width: 100%; right:100%;text-align: right;">FKROVN</a>
+                            <ul class="dropdown-menu" style="top: 0; left: 100%; margin-top: -6px;">
+                                <li>
+                                    <div class="form-check m-2">
+                                        <input type="checkbox" class="form-check-input" id="option-R10">
+                                        <label class="form-check-label" for="option2">FKROVN10</label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown-submenu form-check m-2" style="position: relative; text-align: center;">
+                            <input type="checkbox" class="form-check-input select-all">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                style="width: 100%; right:100%;text-align: right;">FKGOVN</a>
+                            <ul class="dropdown-menu" style="top: 0; left: 100%; margin-top: -6px;">
+                                <li>
+                                    <div class="form-check m-2">
+                                        <input type="checkbox" class="form-check-input" id="option-G10">
+                                        <label class="form-check-label" for="option2">FKGOVN10</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check m-2">
+                                        <input type="checkbox" class="form-check-input" id="option-G20">
+                                        <label class="form-check-label" for="option3">FKGOVN20</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check m-2">
+                                        <input type="checkbox" class="form-check-input" id="option-G30">
+                                        <label class="form-check-label" for="option3">FKGOVN30</label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-4">
+                        <!-- <div id="heatmap"></div> -->
+                    </div>
+                    <div class="col-4">
+                        <div id="treemap"></div>
+                    </div>
+                </div>
+                <!--
+                <div class="col-4">
+                    <div id="heatmap3"></div>
+                </div> -->
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div id="tempgraph"></div>
+            </div>
+            <div class="col-6">
+                <div id="tempgraph2" style="width: 600px; height: 400px;"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="chart" id="history_compare"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 測試格式 -->
+    <div class="app-wrapper">
+        <div class="app-content pt-3 ">
+            <div class="container-fluid" style="padding: 0% 5%;">
+                <h1 class="app-page-title">爐層啟用資訊</h1>
+                <div class="container">
+                    <div class="row g-5 mb-3 justify-content-between align-items-center">
+                        <div class="col-3">
+                            <!-- dropdown -->
+                        </div>
+                        <div class="col-9">
+                            <div class="row ">
+                                <!-- OVN1 -->
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="row d-flex justify-content-between align-items-center">
+                                            <div class="col-4"
+                                                style="overflow: visible; padding: 0%; text-align: center; font-weight: bold; font-size: large; color: #004E81;">
+                                                <!-- GLASS IN OVN1 -->
+                                                <div>
+                                                    <div id="OVO" style="margin-top: 10%;">
+                                                    </div>
+                                                </div>
+                                                OVEN 1
+                                            </div>
+                                            <div class="col-8" style="padding: 0%; " id="heatmap"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- OVN2 -->
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="row">
+                                            <div class="col-4">
+                                            </div>
+                                            <div class="col-8" id="heatmap_oven2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <figure class="snip1321 hover"><img
+                            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample26.jpg"
+                            alt="sq-sample26" />
+                        <figcaption>
+                            <h4>Inverness </h4>
+                            <h2>McKenzie</h2>
+                        </figcaption><a href="#"></a>
+                    </figure>
+                    <figure class="snip1321"><img
+                            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample27.jpg"
+                            alt="sq-sample27" />
+                        <figcaption>
+                            <h4>Ruby </h4>
+                            <h2>Von Rails </h2>
+                        </figcaption><a href="#"></a>
+                    </figure>
+                    <figure class="snip1321"><img
+                            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample28.jpg"
+                            alt="sq-sample28" />
+                        <figcaption>
+                            <h4>Quiche </h4>
+                            <h2>Hollandaise</h2>
+                        </figcaption><a href="#"></a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
+
+{% endblock content %}
+
+{% block js %}
+<script>
+    // 資料
+    var chartData = [
+        {
+            x: '2023-07-01',
+            y: 100
+        },
+        {
+            x: '2023-07-02',
+            y: 150
+        },
+        {
+            x: '2023-07-03',
+            y: 200
+        },
+        // ... 其他數據點
+    ];
+
+    // 圖表配置
+    var chartOptions = {
+        chart: {
+            type: 'line'
+        },
+        series: [
+            {
+                name: '0',
+                data: [{ x: '37-42', y: -1 }]
+            }
+        ],
+        xaxis: {
+            type: 'datetime'
+        }
+    };
+
+    // 創建並渲染圖表
+    var chart = new ApexCharts(document.querySelector('#chart'), chartOptions);
+    chart.render();
+</script>
+
+<!-- 下拉選單 -->
+<script>
+    $(document).ready(function () {
+        // 当点击全选按钮时
+        $('.select-all').change(function () {
+            // 获取全选复选框的当前状态
+            var is_checked = this.checked;
+
+            // 将所有子选项的状态设置成跟全选复选框一样
+            $(this).parent().find('.dropdown-menu input[type="checkbox"]').prop('checked', is_checked);
+        });
+    });
+</script>
+
+<!-- 下拉2 -->
+<script>
+    $(document).ready(function () {
+        $('li.dropdown-submenu > a.dropdown-toggle').on("mouseenter", function (e) {
+            $(this).parent().find('ul.dropdown-menu').show();
+            e.stopPropagation();
+            e.preventDefault();
+        }).parent().on('mouseleave', function (e) {
+            $(this).find('ul.dropdown-menu').hide();
+        });
+    });
+</script>
+
+<!-- 下拉3 -->
+<script>
+    $(document).ready(function () {
+        var menu = document.querySelector('#dropdown-menu1');
+
+        // 在 Bootstrap 的下拉菜單關閉時觸發
+        $('#dropdownMenuButton').on('hidden.bs.dropdown', function () {
+            var selected = Array.from(menu.querySelectorAll('input[type=checkbox][id*="option"]:checked'))
+                .map(function (checkbox) {
+                    return checkbox.nextElementSibling.textContent;
+                })
+                .join('/ ');
+
+            // 沒有選擇任何選項時，顯示 "------"
+            if (selected === '') {
+                selected = '----------';
+            }
+
+            document.querySelector('#dropdownButtonLabel').textContent = selected;
+        });
+    });
+</script>
+
+<!-- 爐層熱力圖 -->
+<script>
+    let oven1_data = [1, 0, 1, 0, 0, 1, 1, 1,
+        0, 1, 1, 0, 1, 1, 1, 1,
+        1, 0, 1, 1,
+        1, 0, 0, 0, 1, 1, 1, 0,
+        1, 1, 0, 1, 0, 1, 1, 1,
+        0, 1, 0, 1, 0, 1
+    ];
+    var options = {
+        chart: {
+            type: 'heatmap',
+            height: 400,
+        },
+        series: [
+            {
+                name: 'Series 1',
+                data: [{ x: '37_42', y: oven1_data[41] }, { x: '29_36', y: oven1_data[35] }, { x: '21_28', y: oven1_data[27] }, { x: '17_20', y: oven1_data[19] }, { x: '9_16', y: oven1_data[15] }, { x: '1_8', y: oven1_data[7] }]
+
+            },
+            {
+                name: 'Series 2',
+                data: [{ x: '37_42', y: oven1_data[40] }, { x: '29_36', y: oven1_data[34] }, { x: '21_28', y: oven1_data[26] }, { x: '17_20', y: oven1_data[18] }, { x: '9_16', y: oven1_data[14] }, { x: '1_8', y: oven1_data[6] }]
+            },
+            {
+                name: 'Series 3',
+                data: [{ x: '37_42', y: oven1_data[39] }, { x: '29_36', y: oven1_data[33] }, { x: '21_28', y: oven1_data[25] }, { x: '17_20', y: oven1_data[17] }, { x: '9_16', y: oven1_data[13] }, { x: '1_8', y: oven1_data[5] }]
+            },
+            {
+                name: 'Series 4',
+                data: [{ x: '37_42', y: oven1_data[38] }, { x: '29_36', y: oven1_data[32] }, { x: '21_28', y: oven1_data[24] }, { x: '17_20', y: oven1_data[16] }, { x: '9_16', y: oven1_data[12] }, { x: '1_8', y: oven1_data[4] }]
+            },
+            {
+                name: 'Series 5',
+                data: [{ x: '37_42', y: oven1_data[37] }, { x: '29_36', y: oven1_data[31] }, { x: '21_28', y: oven1_data[23] }, { x: '17_20', y: -1 }, { x: '9_16', y: oven1_data[11] }, { x: '1_8', y: oven1_data[3] }]
+            },
+            {
+                name: 'Series 6',
+                data: [{ x: '37_42', y: oven1_data[36] }, { x: '29_36', y: oven1_data[30] }, { x: '21_28', y: oven1_data[22] }, { x: '17_20', y: -1 }, { x: '9_16', y: oven1_data[10] }, { x: '1_8', y: oven1_data[2] }]
+            },
+            {
+                name: 'Series 7',
+                data: [{ x: '37_42', y: -1 }, { x: '29_36', y: oven1_data[29] }, { x: '21_28', y: oven1_data[21] }, { x: '17_20', y: -1 }, { x: '9_16', y: oven1_data[9] }, { x: '1_8', y: oven1_data[1] }]
+            },
+            {
+                name: 'Series 8',
+                data: [{ x: '37_42', y: -1 }, { x: '29_36', y: oven1_data[28] }, { x: '21_28', y: oven1_data[20] }, { x: '17_20', y: -1 }, { x: '9_16', y: oven1_data[8] }, { x: '1_8', y: oven1_data[0] }],
+
+            },
+
+
+        ],
+        xaxis: {
+            categories: ['37_42', '29_36', '21_28', '17_20', '9_16', '1_8']
+        },
+        yaxis: {
+            max: 100
+        },
+        // 添加事件設定
+        tooltip: {
+            custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+                // 取得該資料點的 y 值
+                var yValue = series[seriesIndex][dataPointIndex];
+                // console.log(w);
+                // 檢查 y 值是否等於 2
+                if (yValue === -1) {
+                    return null; // 返回 null，不顯示 tooltip
+                }
+                let mapping_list = [42, 36, 28, 20, 16, 8];
+                return `爐層： ${mapping_list[dataPointIndex] - seriesIndex}</br>狀態：${w.config.plotOptions.heatmap.colorScale.ranges[yValue].name}`;
+
+            }
+        },
+        plotOptions: {
+            heatmap: {
+                colorScale: {
+                    dataLabels: {
+                        enabled: false // 不显示数据标签
+                    },
+                    ranges: [{
+                        from: 0,
+                        to: 0,
+                        color: "#9D9D9D",
+                        name: '允許進片(Enable)'
+                    },
+                    {
+                        from: 1,
+                        to: 1,
+                        color: "#D26D69",
+                        name: '不允許進片(Enable)'
+                    },
+                    {
+                        from: -1,
+                        to: -1,
+                        color: "#f5f6fe",
+                        name: 'NULL'
+                    },],
+                    inverse: false,
+                },
+
+            }
+        },
+        dataLabels: {
+            style: {
+                fontSize: "14px",
+            },
+            enabled: function ({ value, seriesIndex, dataPointIndex, w }) {
+                // 获取数据点的 y 值
+                var yValue = value;
+                console.log(yValue);
+                // 检查 y 值是否等于 -1，如果是则不显示数据标签
+                if (yValue === -1) {
+                    return false; // 不显示数据标签
+                }
+                // 其他情况下显示数据标签
+                return true;
+            },
+            formatter: function (value, { seriesIndex, dataPointIndex, w }) {
+                // 根据需要自定义数据标签的显示内容
+                let mapping_list = [42, 36, 28, 20, 16, 8];
+                return `${mapping_list[dataPointIndex] - seriesIndex}`;
+            }
+        },
+
+    };
+
+    // // 在渲染图表之前，对数据进行预处理
+    for (var i = 0; i < options.series.length; i++) {
+        var seriesData = options.series[i].data;
+        // console.log(seriesData);
+        // 遍历系列的数据，检查y值是否小于0，如果是则设置数据标签不可见
+        // options.series[i].data = seriesData.map(function (dataPoint) {
+        //     if (dataPoint.y < 0) {
+        //         dataPoint.dataLabels = { enabled: false }; // 设置数据标签不可见
+        //     }
+        //     return dataPoint;
+        // });
+    }
+    var chart = new ApexCharts(document.querySelector("#heatmap"), options);
+    chart.render();
+</script>
+
+<!-- tree -->
+<script>
+    let API_data = {
+        "status": "OK",
+        "message": "[INFO] Connect Survival.",
+        "data": {
+            "eqp_id": "FKSOVN30",
+            "return_len": 6,
+            "return_list": [
+                {
+                    "DATETIME": "2023-08-15 13:37:00",
+                    "TOOL_ID": "FKSOVN30",
+                    "OV1_UP_L_TEMP": 2301,
+                    "OV1_LOW_L_TEMP": 2299,
+                    "OV1_UP_R_TEMP": 2299,
+                    "OV2_LOW_L_TEMP": 2300,
+                    "OV2_UP_SH_TEMP": 2299,
+                    "OV1_UP_SH_TEMP": 2299,
+                    "OV1_LOW_R_TEMP": 2300,
+                    "OV2_UP_L_TEMP": 2299,
+                    "OV2_UP_R_TEMP": 2300,
+                    "OV2_LOW_SH_TEMP": 2300,
+                    "OV1_S1_PROHIBIT": 0,
+                    "OV1_S10_PROHIBIT": 0,
+                    "OV1_S11_PROHIBIT": 0,
+                    "OV1_S12_PROHIBIT": 0,
+                    "OV1_S13_PROHIBIT": 0,
+                    "OV1_S14_PROHIBIT": 0,
+                    "OV1_S15_PROHIBIT": 0,
+                    "OV1_S16_PROHIBIT": 0,
+                    "OV1_S17_PROHIBIT": 0,
+                    "OV1_S18_PROHIBIT": 0,
+                    "OV1_S19_PROHIBIT": 0,
+                    "OV1_S2_PROHIBIT": 0,
+                    "OV1_S20_PROHIBIT": 0,
+                    "OV1_S21_PROHIBIT": 0,
+                    "OV1_S22_PROHIBIT": 0,
+                    "OV1_S23_PROHIBIT": 0,
+                    "OV1_S24_PROHIBIT": 0,
+                    "OV1_S25_PROHIBIT": 0,
+                    "OV1_S26_PROHIBIT": 0,
+                    "OV1_S27_PROHIBIT": 0,
+                    "OV1_S28_PROHIBIT": 0,
+                    "OV1_S29_PROHIBIT": 0,
+                    "OV1_S3_PROHIBIT": 0,
+                    "OV1_S30_PROHIBIT": 0,
+                    "OV1_S31_PROHIBIT": 0,
+                    "OV1_S32_PROHIBIT": 0,
+                    "OV1_S33_PROHIBIT": 0,
+                    "OV1_S34_PROHIBIT": 0,
+                    "OV1_S35_PROHIBIT": 0,
+                    "OV1_S36_PROHIBIT": 0,
+                    "OV1_S37_PROHIBIT": 0,
+                    "OV1_S38_PROHIBIT": 0,
+                    "OV1_S39_PROHIBIT": 0,
+                    "OV1_S4_PROHIBIT": 0,
+                    "OV1_S40_PROHIBIT": 0,
+                    "OV1_S41_PROHIBIT": 0,
+                    "OV1_S42_PROHIBIT": 0,
+                    "OV1_S5_PROHIBIT": 0,
+                    "OV1_S6_PROHIBIT": 0,
+                    "OV1_S7_PROHIBIT": 0,
+                    "OV1_S8_PROHIBIT": 0,
+                    "OV1_S9_PROHIBIT": 0,
+                    "OV2_S1_PROHIBIT": 0,
+                    "OV2_S10_PROHIBIT": 0,
+                    "OV2_S11_PROHIBIT": 0,
+                    "OV2_S12_PROHIBIT": 0,
+                    "OV2_S13_PROHIBIT": 0,
+                    "OV2_S14_PROHIBIT": 0,
+                    "OV2_S15_PROHIBIT": 0,
+                    "OV2_S16_PROHIBIT": 0,
+                    "OV2_S17_PROHIBIT": 0,
+                    "OV2_S18_PROHIBIT": 0,
+                    "OV2_S19_PROHIBIT": 0,
+                    "OV2_S2_PROHIBIT": 0,
+                    "OV2_S20_PROHIBIT": 0,
+                    "OV2_S21_PROHIBIT": 0,
+                    "OV2_S22_PROHIBIT": 0,
+                    "OV2_S23_PROHIBIT": 0,
+                    "OV2_S24_PROHIBIT": 0,
+                    "OV2_S25_PROHIBIT": 0,
+                    "OV2_S26_PROHIBIT": 0,
+                    "OV2_S27_PROHIBIT": 1,
+                    "OV2_S28_PROHIBIT": 1,
+                    "OV2_S29_PROHIBIT": 0,
+                    "OV2_S3_PROHIBIT": 0,
+                    "OV2_S30_PROHIBIT": 0,
+                    "OV2_S31_PROHIBIT": 0,
+                    "OV2_S32_PROHIBIT": 0,
+                    "OV2_S33_PROHIBIT": 0,
+                    "OV2_S34_PROHIBIT": 0,
+                    "OV2_S35_PROHIBIT": 1,
+                    "OV2_S36_PROHIBIT": 1,
+                    "OV2_S37_PROHIBIT": 1,
+                    "OV2_S38_PROHIBIT": 1,
+                    "OV2_S39_PROHIBIT": 1,
+                    "OV2_S4_PROHIBIT": 0,
+                    "OV2_S40_PROHIBIT": 1,
+                    "OV2_S41_PROHIBIT": 1,
+                    "OV2_S42_PROHIBIT": 1,
+                    "OV2_S5_PROHIBIT": 0,
+                    "OV2_S6_PROHIBIT": 0,
+                    "OV2_S7_PROHIBIT": 0,
+                    "OV2_S8_PROHIBIT": 0,
+                    "OV2_S9_PROHIBIT": 0,
+                    "GLASS_IN_COOLING": 0,
+                    "GLASS_IN_OVEN1": 0,
+                    "GLASS_IN_OVEN2": 0,
+                    "HEATER_TIME": 0,
+                    "OV1_LOW_SH_TEMP": 2299,
+                    "OV2_LOW_R_TEMP": 2300,
+                    "RECIPE_ID": 48
+                },
+                {
+                    "DATETIME": "2023-08-15 13:37:00",
+                    "TOOL_ID": "FKSOVN30",
+                    "OV1_UP_L_TEMP": 2285,
+                    "OV1_UP_R_TEMP": 2287,
+                    "OV1_LOW_SH_TEMP": 2301,
+                    "OV1_LOW_R_TEMP": 2290,
+                    "OV1_UP_SH_TEMP": 2317,
+                    "OV2_UP_L_TEMP": 2288,
+                    "OV2_LOW_R_TEMP": 2300,
+                    "OV1_LOW_L_TEMP": 2301,
+                    "OV2_LOW_L_TEMP": 2300,
+                    "OV2_UP_R_TEMP": 2284,
+                    "OV2_UP_SH_TEMP": 2298,
+                    "OV1_S1_PROHIBIT": 0,
+                    "OV1_S10_PROHIBIT": 0,
+                    "OV1_S11_PROHIBIT": 0,
+                    "OV1_S12_PROHIBIT": 0,
+                    "OV1_S13_PROHIBIT": 0,
+                    "OV1_S14_PROHIBIT": 0,
+                    "OV1_S15_PROHIBIT": 0,
+                    "OV1_S16_PROHIBIT": 0,
+                    "OV1_S17_PROHIBIT": 0,
+                    "OV1_S18_PROHIBIT": 0,
+                    "OV1_S19_PROHIBIT": 0,
+                    "OV1_S2_PROHIBIT": 0,
+                    "OV1_S20_PROHIBIT": 0,
+                    "OV1_S21_PROHIBIT": 0,
+                    "OV1_S22_PROHIBIT": 0,
+                    "OV1_S23_PROHIBIT": 0,
+                    "OV1_S24_PROHIBIT": 0,
+                    "OV1_S25_PROHIBIT": 0,
+                    "OV1_S26_PROHIBIT": 0,
+                    "OV1_S27_PROHIBIT": 0,
+                    "OV1_S28_PROHIBIT": 0,
+                    "OV1_S29_PROHIBIT": 0,
+                    "OV1_S3_PROHIBIT": 0,
+                    "OV1_S30_PROHIBIT": 0,
+                    "OV1_S31_PROHIBIT": 0,
+                    "OV1_S32_PROHIBIT": 0,
+                    "OV1_S33_PROHIBIT": 0,
+                    "OV1_S34_PROHIBIT": 0,
+                    "OV1_S35_PROHIBIT": 0,
+                    "OV1_S36_PROHIBIT": 0,
+                    "OV1_S37_PROHIBIT": 0,
+                    "OV1_S38_PROHIBIT": 0,
+                    "OV1_S39_PROHIBIT": 0,
+                    "OV1_S4_PROHIBIT": 0,
+                    "OV1_S40_PROHIBIT": 0,
+                    "OV1_S41_PROHIBIT": 0,
+                    "OV1_S42_PROHIBIT": 0,
+                    "OV1_S5_PROHIBIT": 0,
+                    "OV1_S6_PROHIBIT": 0,
+                    "OV1_S7_PROHIBIT": 0,
+                    "OV1_S8_PROHIBIT": 0,
+                    "OV1_S9_PROHIBIT": 0,
+                    "OV2_S1_PROHIBIT": 0,
+                    "OV2_S10_PROHIBIT": 0,
+                    "OV2_S11_PROHIBIT": 0,
+                    "OV2_S12_PROHIBIT": 0,
+                    "OV2_S13_PROHIBIT": 0,
+                    "OV2_S14_PROHIBIT": 0,
+                    "OV2_S15_PROHIBIT": 0,
+                    "OV2_S16_PROHIBIT": 0,
+                    "OV2_S17_PROHIBIT": 0,
+                    "OV2_S18_PROHIBIT": 0,
+                    "OV2_S19_PROHIBIT": 0,
+                    "OV2_S2_PROHIBIT": 0,
+                    "OV2_S20_PROHIBIT": 0,
+                    "OV2_S21_PROHIBIT": 0,
+                    "OV2_S22_PROHIBIT": 0,
+                    "OV2_S23_PROHIBIT": 0,
+                    "OV2_S24_PROHIBIT": 0,
+                    "OV2_S25_PROHIBIT": 0,
+                    "OV2_S26_PROHIBIT": 0,
+                    "OV2_S27_PROHIBIT": 1,
+                    "OV2_S28_PROHIBIT": 1,
+                    "OV2_S29_PROHIBIT": 0,
+                    "OV2_S3_PROHIBIT": 0,
+                    "OV2_S30_PROHIBIT": 0,
+                    "OV2_S31_PROHIBIT": 0,
+                    "OV2_S32_PROHIBIT": 0,
+                    "OV2_S33_PROHIBIT": 0,
+                    "OV2_S34_PROHIBIT": 0,
+                    "OV2_S35_PROHIBIT": 1,
+                    "OV2_S36_PROHIBIT": 1,
+                    "OV2_S37_PROHIBIT": 1,
+                    "OV2_S38_PROHIBIT": 1,
+                    "OV2_S39_PROHIBIT": 1,
+                    "OV2_S4_PROHIBIT": 0,
+                    "OV2_S40_PROHIBIT": 1,
+                    "OV2_S41_PROHIBIT": 1,
+                    "OV2_S42_PROHIBIT": 1,
+                    "OV2_S5_PROHIBIT": 0,
+                    "OV2_S6_PROHIBIT": 0,
+                    "OV2_S7_PROHIBIT": 0,
+                    "OV2_S8_PROHIBIT": 0,
+                    "OV2_S9_PROHIBIT": 0,
+                    "GLASS_IN_COOLING": 0,
+                    "GLASS_IN_OVEN1": 1,
+                    "GLASS_IN_OVEN2": 0,
+                    "HEATER_TIME": 0,
+                    "OV2_LOW_SH_TEMP": 2300,
+                    "RECIPE_ID": 48
+                },
+                {
+                    "DATETIME": "2023-08-15 13:37:00",
+                    "TOOL_ID": "FKSOVN30",
+                    "OV1_UP_L_TEMP": 2285,
+                    "OV1_UP_R_TEMP": 2287,
+                    "OV1_LOW_SH_TEMP": 2301,
+                    "OV1_LOW_R_TEMP": 2290,
+                    "OV1_UP_SH_TEMP": 2317,
+                    "OV2_UP_L_TEMP": 2288,
+                    "OV2_LOW_R_TEMP": 2300,
+                    "OV1_LOW_L_TEMP": 2301,
+                    "OV2_LOW_L_TEMP": 2300,
+                    "OV2_UP_R_TEMP": 2284,
+                    "OV2_UP_SH_TEMP": 2298,
+                    "OV1_S1_PROHIBIT": 0,
+                    "OV1_S10_PROHIBIT": 0,
+                    "OV1_S11_PROHIBIT": 0,
+                    "OV1_S12_PROHIBIT": 0,
+                    "OV1_S13_PROHIBIT": 0,
+                    "OV1_S14_PROHIBIT": 0,
+                    "OV1_S15_PROHIBIT": 0,
+                    "OV1_S16_PROHIBIT": 0,
+                    "OV1_S17_PROHIBIT": 0,
+                    "OV1_S18_PROHIBIT": 0,
+                    "OV1_S19_PROHIBIT": 0,
+                    "OV1_S2_PROHIBIT": 0,
+                    "OV1_S20_PROHIBIT": 0,
+                    "OV1_S21_PROHIBIT": 0,
+                    "OV1_S22_PROHIBIT": 0,
+                    "OV1_S23_PROHIBIT": 0,
+                    "OV1_S24_PROHIBIT": 0,
+                    "OV1_S25_PROHIBIT": 0,
+                    "OV1_S26_PROHIBIT": 0,
+                    "OV1_S27_PROHIBIT": 0,
+                    "OV1_S28_PROHIBIT": 0,
+                    "OV1_S29_PROHIBIT": 0,
+                    "OV1_S3_PROHIBIT": 0,
+                    "OV1_S30_PROHIBIT": 0,
+                    "OV1_S31_PROHIBIT": 0,
+                    "OV1_S32_PROHIBIT": 0,
+                    "OV1_S33_PROHIBIT": 0,
+                    "OV1_S34_PROHIBIT": 0,
+                    "OV1_S35_PROHIBIT": 0,
+                    "OV1_S36_PROHIBIT": 0,
+                    "OV1_S37_PROHIBIT": 0,
+                    "OV1_S38_PROHIBIT": 0,
+                    "OV1_S39_PROHIBIT": 0,
+                    "OV1_S4_PROHIBIT": 0,
+                    "OV1_S40_PROHIBIT": 0,
+                    "OV1_S41_PROHIBIT": 0,
+                    "OV1_S42_PROHIBIT": 0,
+                    "OV1_S5_PROHIBIT": 0,
+                    "OV1_S6_PROHIBIT": 0,
+                    "OV1_S7_PROHIBIT": 0,
+                    "OV1_S8_PROHIBIT": 0,
+                    "OV1_S9_PROHIBIT": 0,
+                    "OV2_S1_PROHIBIT": 0,
+                    "OV2_S10_PROHIBIT": 0,
+                    "OV2_S11_PROHIBIT": 0,
+                    "OV2_S12_PROHIBIT": 0,
+                    "OV2_S13_PROHIBIT": 0,
+                    "OV2_S14_PROHIBIT": 0,
+                    "OV2_S15_PROHIBIT": 0,
+                    "OV2_S16_PROHIBIT": 0,
+                    "OV2_S17_PROHIBIT": 0,
+                    "OV2_S18_PROHIBIT": 0,
+                    "OV2_S19_PROHIBIT": 0,
+                    "OV2_S2_PROHIBIT": 0,
+                    "OV2_S20_PROHIBIT": 0,
+                    "OV2_S21_PROHIBIT": 0,
+                    "OV2_S22_PROHIBIT": 0,
+                    "OV2_S23_PROHIBIT": 0,
+                    "OV2_S24_PROHIBIT": 0,
+                    "OV2_S25_PROHIBIT": 0,
+                    "OV2_S26_PROHIBIT": 0,
+                    "OV2_S27_PROHIBIT": 1,
+                    "OV2_S28_PROHIBIT": 1,
+                    "OV2_S29_PROHIBIT": 0,
+                    "OV2_S3_PROHIBIT": 0,
+                    "OV2_S30_PROHIBIT": 0,
+                    "OV2_S31_PROHIBIT": 0,
+                    "OV2_S32_PROHIBIT": 0,
+                    "OV2_S33_PROHIBIT": 0,
+                    "OV2_S34_PROHIBIT": 0,
+                    "OV2_S35_PROHIBIT": 1,
+                    "OV2_S36_PROHIBIT": 1,
+                    "OV2_S37_PROHIBIT": 1,
+                    "OV2_S38_PROHIBIT": 1,
+                    "OV2_S39_PROHIBIT": 1,
+                    "OV2_S4_PROHIBIT": 0,
+                    "OV2_S40_PROHIBIT": 1,
+                    "OV2_S41_PROHIBIT": 1,
+                    "OV2_S42_PROHIBIT": 1,
+                    "OV2_S5_PROHIBIT": 0,
+                    "OV2_S6_PROHIBIT": 0,
+                    "OV2_S7_PROHIBIT": 0,
+                    "OV2_S8_PROHIBIT": 0,
+                    "OV2_S9_PROHIBIT": 0,
+                    "GLASS_IN_COOLING": 0,
+                    "GLASS_IN_OVEN1": 1,
+                    "GLASS_IN_OVEN2": 0,
+                    "HEATER_TIME": 0,
+                    "OV2_LOW_SH_TEMP": 2300,
+                    "RECIPE_ID": 48
+                },
+                {
+                    "DATETIME": "2023-08-15 13:37:00",
+                    "TOOL_ID": "FKSOVN30",
+                    "OV1_UP_L_TEMP": 2302,
+                    "OV1_UP_R_TEMP": 2301,
+                    "OV1_LOW_L_TEMP": 2314,
+                    "OV1_UP_SH_TEMP": 2300,
+                    "OV1_LOW_SH_TEMP": 2297,
+                    "OV2_UP_L_TEMP": 2284,
+                    "OV1_LOW_R_TEMP": 2226,
+                    "OV2_UP_SH_TEMP": 2303,
+                    "OV2_LOW_SH_TEMP": 2300,
+                    "OV2_LOW_R_TEMP": 2299,
+                    "OV2_UP_R_TEMP": 2301,
+                    "OV2_LOW_L_TEMP": 2299,
+                    "OV1_S1_PROHIBIT": 0,
+                    "OV1_S10_PROHIBIT": 0,
+                    "OV1_S11_PROHIBIT": 0,
+                    "OV1_S12_PROHIBIT": 0,
+                    "OV1_S13_PROHIBIT": 0,
+                    "OV1_S14_PROHIBIT": 0,
+                    "OV1_S15_PROHIBIT": 0,
+                    "OV1_S16_PROHIBIT": 0,
+                    "OV1_S17_PROHIBIT": 0,
+                    "OV1_S18_PROHIBIT": 0,
+                    "OV1_S19_PROHIBIT": 0,
+                    "OV1_S2_PROHIBIT": 0,
+                    "OV1_S20_PROHIBIT": 0,
+                    "OV1_S21_PROHIBIT": 0,
+                    "OV1_S22_PROHIBIT": 0,
+                    "OV1_S23_PROHIBIT": 0,
+                    "OV1_S24_PROHIBIT": 0,
+                    "OV1_S25_PROHIBIT": 0,
+                    "OV1_S26_PROHIBIT": 0,
+                    "OV1_S27_PROHIBIT": 0,
+                    "OV1_S28_PROHIBIT": 0,
+                    "OV1_S29_PROHIBIT": 0,
+                    "OV1_S3_PROHIBIT": 0,
+                    "OV1_S30_PROHIBIT": 0,
+                    "OV1_S31_PROHIBIT": 0,
+                    "OV1_S32_PROHIBIT": 0,
+                    "OV1_S33_PROHIBIT": 0,
+                    "OV1_S34_PROHIBIT": 0,
+                    "OV1_S35_PROHIBIT": 0,
+                    "OV1_S36_PROHIBIT": 0,
+                    "OV1_S37_PROHIBIT": 0,
+                    "OV1_S38_PROHIBIT": 0,
+                    "OV1_S39_PROHIBIT": 0,
+                    "OV1_S4_PROHIBIT": 0,
+                    "OV1_S40_PROHIBIT": 0,
+                    "OV1_S41_PROHIBIT": 0,
+                    "OV1_S42_PROHIBIT": 0,
+                    "OV1_S5_PROHIBIT": 0,
+                    "OV1_S6_PROHIBIT": 0,
+                    "OV1_S7_PROHIBIT": 0,
+                    "OV1_S8_PROHIBIT": 0,
+                    "OV1_S9_PROHIBIT": 0,
+                    "OV2_S1_PROHIBIT": 0,
+                    "OV2_S10_PROHIBIT": 0,
+                    "OV2_S11_PROHIBIT": 0,
+                    "OV2_S12_PROHIBIT": 0,
+                    "OV2_S13_PROHIBIT": 0,
+                    "OV2_S14_PROHIBIT": 0,
+                    "OV2_S15_PROHIBIT": 0,
+                    "OV2_S16_PROHIBIT": 0,
+                    "OV2_S17_PROHIBIT": 0,
+                    "OV2_S18_PROHIBIT": 0,
+                    "OV2_S19_PROHIBIT": 0,
+                    "OV2_S2_PROHIBIT": 0,
+                    "OV2_S20_PROHIBIT": 0,
+                    "OV2_S21_PROHIBIT": 0,
+                    "OV2_S22_PROHIBIT": 0,
+                    "OV2_S23_PROHIBIT": 0,
+                    "OV2_S24_PROHIBIT": 0,
+                    "OV2_S25_PROHIBIT": 0,
+                    "OV2_S26_PROHIBIT": 0,
+                    "OV2_S27_PROHIBIT": 1,
+                    "OV2_S28_PROHIBIT": 1,
+                    "OV2_S29_PROHIBIT": 0,
+                    "OV2_S3_PROHIBIT": 0,
+                    "OV2_S30_PROHIBIT": 0,
+                    "OV2_S31_PROHIBIT": 0,
+                    "OV2_S32_PROHIBIT": 0,
+                    "OV2_S33_PROHIBIT": 0,
+                    "OV2_S34_PROHIBIT": 0,
+                    "OV2_S35_PROHIBIT": 1,
+                    "OV2_S36_PROHIBIT": 1,
+                    "OV2_S37_PROHIBIT": 1,
+                    "OV2_S38_PROHIBIT": 1,
+                    "OV2_S39_PROHIBIT": 1,
+                    "OV2_S4_PROHIBIT": 0,
+                    "OV2_S40_PROHIBIT": 1,
+                    "OV2_S41_PROHIBIT": 1,
+                    "OV2_S42_PROHIBIT": 1,
+                    "OV2_S5_PROHIBIT": 0,
+                    "OV2_S6_PROHIBIT": 0,
+                    "OV2_S7_PROHIBIT": 0,
+                    "OV2_S8_PROHIBIT": 0,
+                    "OV2_S9_PROHIBIT": 0,
+                    "GLASS_IN_COOLING": 0,
+                    "GLASS_IN_OVEN1": 15,
+                    "GLASS_IN_OVEN2": 0,
+                    "HEATER_TIME": 0,
+                    "RECIPE_ID": 48
+                },
+                {
+                    "DATETIME": "2023-08-15 13:37:00",
+                    "TOOL_ID": "FKSOVN30",
+                    "OV1_UP_L_TEMP": 2299,
+                    "OV1_UP_SH_TEMP": 2295,
+                    "OV2_UP_L_TEMP": 2334,
+                    "OV2_UP_R_TEMP": 2289,
+                    "OV1_LOW_SH_TEMP": 2301,
+                    "OV2_UP_SH_TEMP": 2298,
+                    "OV2_LOW_SH_TEMP": 2302,
+                    "OV1_S1_PROHIBIT": 0,
+                    "OV1_S10_PROHIBIT": 0,
+                    "OV1_S11_PROHIBIT": 0,
+                    "OV1_S12_PROHIBIT": 0,
+                    "OV1_S13_PROHIBIT": 0,
+                    "OV1_S14_PROHIBIT": 0,
+                    "OV1_S15_PROHIBIT": 0,
+                    "OV1_S16_PROHIBIT": 0,
+                    "OV1_S17_PROHIBIT": 0,
+                    "OV1_S18_PROHIBIT": 0,
+                    "OV1_S19_PROHIBIT": 0,
+                    "OV1_S2_PROHIBIT": 0,
+                    "OV1_S20_PROHIBIT": 0,
+                    "OV1_S21_PROHIBIT": 0,
+                    "OV1_S22_PROHIBIT": 0,
+                    "OV1_S23_PROHIBIT": 0,
+                    "OV1_S24_PROHIBIT": 0,
+                    "OV1_S25_PROHIBIT": 0,
+                    "OV1_S26_PROHIBIT": 0,
+                    "OV1_S27_PROHIBIT": 0,
+                    "OV1_S28_PROHIBIT": 0,
+                    "OV1_S29_PROHIBIT": 0,
+                    "OV1_S3_PROHIBIT": 0,
+                    "OV1_S30_PROHIBIT": 0,
+                    "OV1_S31_PROHIBIT": 0,
+                    "OV1_S32_PROHIBIT": 0,
+                    "OV1_S33_PROHIBIT": 0,
+                    "OV1_S34_PROHIBIT": 0,
+                    "OV1_S35_PROHIBIT": 0,
+                    "OV1_S36_PROHIBIT": 0,
+                    "OV1_S37_PROHIBIT": 0,
+                    "OV1_S38_PROHIBIT": 0,
+                    "OV1_S39_PROHIBIT": 0,
+                    "OV1_S4_PROHIBIT": 0,
+                    "OV1_S40_PROHIBIT": 0,
+                    "OV1_S41_PROHIBIT": 0,
+                    "OV1_S42_PROHIBIT": 0,
+                    "OV1_S5_PROHIBIT": 0,
+                    "OV1_S6_PROHIBIT": 0,
+                    "OV1_S7_PROHIBIT": 0,
+                    "OV1_S8_PROHIBIT": 0,
+                    "OV1_S9_PROHIBIT": 0,
+                    "OV2_S1_PROHIBIT": 0,
+                    "OV2_S10_PROHIBIT": 0,
+                    "OV2_S11_PROHIBIT": 0,
+                    "OV2_S12_PROHIBIT": 0,
+                    "OV2_S13_PROHIBIT": 0,
+                    "OV2_S14_PROHIBIT": 0,
+                    "OV2_S15_PROHIBIT": 0,
+                    "OV2_S16_PROHIBIT": 0,
+                    "OV2_S17_PROHIBIT": 0,
+                    "OV2_S18_PROHIBIT": 0,
+                    "OV2_S19_PROHIBIT": 0,
+                    "OV2_S2_PROHIBIT": 0,
+                    "OV2_S20_PROHIBIT": 0,
+                    "OV2_S21_PROHIBIT": 0,
+                    "OV2_S22_PROHIBIT": 0,
+                    "OV2_S23_PROHIBIT": 0,
+                    "OV2_S24_PROHIBIT": 0,
+                    "OV2_S25_PROHIBIT": 0,
+                    "OV2_S26_PROHIBIT": 0,
+                    "OV2_S27_PROHIBIT": 1,
+                    "OV2_S28_PROHIBIT": 1,
+                    "OV2_S29_PROHIBIT": 0,
+                    "OV2_S3_PROHIBIT": 0,
+                    "OV2_S30_PROHIBIT": 0,
+                    "OV2_S31_PROHIBIT": 0,
+                    "OV2_S32_PROHIBIT": 0,
+                    "OV2_S33_PROHIBIT": 0,
+                    "OV2_S34_PROHIBIT": 0,
+                    "OV2_S35_PROHIBIT": 1,
+                    "OV2_S36_PROHIBIT": 1,
+                    "OV2_S37_PROHIBIT": 1,
+                    "OV2_S38_PROHIBIT": 1,
+                    "OV2_S39_PROHIBIT": 1,
+                    "OV2_S4_PROHIBIT": 0,
+                    "OV2_S40_PROHIBIT": 1,
+                    "OV2_S41_PROHIBIT": 1,
+                    "OV2_S42_PROHIBIT": 1,
+                    "OV2_S5_PROHIBIT": 0,
+                    "OV2_S6_PROHIBIT": 0,
+                    "OV2_S7_PROHIBIT": 0,
+                    "OV2_S8_PROHIBIT": 0,
+                    "OV2_S9_PROHIBIT": 0,
+                    "GLASS_IN_COOLING": 0,
+                    "GLASS_IN_OVEN1": 29,
+                    "GLASS_IN_OVEN2": 8,
+                    "HEATER_TIME": 0,
+                    "OV1_LOW_L_TEMP": 2314,
+                    "OV1_LOW_R_TEMP": 2293,
+                    "OV1_UP_R_TEMP": 2303,
+                    "OV2_LOW_L_TEMP": 2297,
+                    "OV2_LOW_R_TEMP": 2300,
+                    "RECIPE_ID": 48
+                },
+                {
+                    "DATETIME": "2023-08-15 13:37:00",
+                    "TOOL_ID": "FKSOVN30",
+                    "OV1_UP_L_TEMP": 2301,
+                    "OV1_LOW_L_TEMP": 2298,
+                    "OV1_UP_SH_TEMP": 2303,
+                    "OV1_LOW_SH_TEMP": 2298,
+                    "OV2_UP_SH_TEMP": 2301,
+                    "OV1_LOW_R_TEMP": 2301,
+                    "OV2_UP_R_TEMP": 2299,
+                    "OV2_UP_L_TEMP": 2299,
+                    "OV2_LOW_L_TEMP": 2301,
+                    "OV2_LOW_SH_TEMP": 2299,
+                    "OV1_S1_PROHIBIT": 0,
+                    "OV1_S10_PROHIBIT": 0,
+                    "OV1_S11_PROHIBIT": 0,
+                    "OV1_S12_PROHIBIT": 0,
+                    "OV1_S13_PROHIBIT": 0,
+                    "OV1_S14_PROHIBIT": 0,
+                    "OV1_S15_PROHIBIT": 0,
+                    "OV1_S16_PROHIBIT": 0,
+                    "OV1_S17_PROHIBIT": 0,
+                    "OV1_S18_PROHIBIT": 0,
+                    "OV1_S19_PROHIBIT": 0,
+                    "OV1_S2_PROHIBIT": 0,
+                    "OV1_S20_PROHIBIT": 0,
+                    "OV1_S21_PROHIBIT": 0,
+                    "OV1_S22_PROHIBIT": 0,
+                    "OV1_S23_PROHIBIT": 0,
+                    "OV1_S24_PROHIBIT": 0,
+                    "OV1_S25_PROHIBIT": 0,
+                    "OV1_S26_PROHIBIT": 0,
+                    "OV1_S27_PROHIBIT": 0,
+                    "OV1_S28_PROHIBIT": 0,
+                    "OV1_S29_PROHIBIT": 0,
+                    "OV1_S3_PROHIBIT": 0,
+                    "OV1_S30_PROHIBIT": 0,
+                    "OV1_S31_PROHIBIT": 0,
+                    "OV1_S32_PROHIBIT": 0,
+                    "OV1_S33_PROHIBIT": 0,
+                    "OV1_S34_PROHIBIT": 0,
+                    "OV1_S35_PROHIBIT": 0,
+                    "OV1_S36_PROHIBIT": 0,
+                    "OV1_S37_PROHIBIT": 0,
+                    "OV1_S38_PROHIBIT": 0,
+                    "OV1_S39_PROHIBIT": 0,
+                    "OV1_S4_PROHIBIT": 0,
+                    "OV1_S40_PROHIBIT": 0,
+                    "OV1_S41_PROHIBIT": 0,
+                    "OV1_S42_PROHIBIT": 0,
+                    "OV1_S5_PROHIBIT": 0,
+                    "OV1_S6_PROHIBIT": 0,
+                    "OV1_S7_PROHIBIT": 0,
+                    "OV1_S8_PROHIBIT": 0,
+                    "OV1_S9_PROHIBIT": 0,
+                    "OV2_S1_PROHIBIT": 0,
+                    "OV2_S10_PROHIBIT": 0,
+                    "OV2_S11_PROHIBIT": 0,
+                    "OV2_S12_PROHIBIT": 0,
+                    "OV2_S13_PROHIBIT": 0,
+                    "OV2_S14_PROHIBIT": 0,
+                    "OV2_S15_PROHIBIT": 0,
+                    "OV2_S16_PROHIBIT": 0,
+                    "OV2_S17_PROHIBIT": 0,
+                    "OV2_S18_PROHIBIT": 0,
+                    "OV2_S19_PROHIBIT": 0,
+                    "OV2_S2_PROHIBIT": 0,
+                    "OV2_S20_PROHIBIT": 0,
+                    "OV2_S21_PROHIBIT": 0,
+                    "OV2_S22_PROHIBIT": 0,
+                    "OV2_S23_PROHIBIT": 0,
+                    "OV2_S24_PROHIBIT": 0,
+                    "OV2_S25_PROHIBIT": 0,
+                    "OV2_S26_PROHIBIT": 0,
+                    "OV2_S27_PROHIBIT": 1,
+                    "OV2_S28_PROHIBIT": 1,
+                    "OV2_S29_PROHIBIT": 0,
+                    "OV2_S3_PROHIBIT": 0,
+                    "OV2_S30_PROHIBIT": 0,
+                    "OV2_S31_PROHIBIT": 0,
+                    "OV2_S32_PROHIBIT": 0,
+                    "OV2_S33_PROHIBIT": 0,
+                    "OV2_S34_PROHIBIT": 0,
+                    "OV2_S35_PROHIBIT": 1,
+                    "OV2_S36_PROHIBIT": 1,
+                    "OV2_S37_PROHIBIT": 1,
+                    "OV2_S38_PROHIBIT": 1,
+                    "OV2_S39_PROHIBIT": 1,
+                    "OV2_S4_PROHIBIT": 0,
+                    "OV2_S40_PROHIBIT": 1,
+                    "OV2_S41_PROHIBIT": 1,
+                    "OV2_S42_PROHIBIT": 1,
+                    "OV2_S5_PROHIBIT": 0,
+                    "OV2_S6_PROHIBIT": 0,
+                    "OV2_S7_PROHIBIT": 0,
+                    "OV2_S8_PROHIBIT": 0,
+                    "OV2_S9_PROHIBIT": 0,
+                    "GLASS_IN_COOLING": 0,
+                    "GLASS_IN_OVEN1": 1,
+                    "GLASS_IN_OVEN2": 25,
+                    "HEATER_TIME": 0,
+                    "OV1_UP_R_TEMP": 2300,
+                    "OV2_LOW_R_TEMP": 2299,
+                    "RECIPE_ID": 48
+                }]
+        }
+    };
+
+
+    var options = {
+        series: [
+            {
+                data: [
+                    {
+                        x: 'New Delhi',
+                        y: 218
+                    },
+                    {
+                        x: 'Kolkata',
+                        y: 149
+                    },
+                    {
+                        x: 'Mumbai',
+                        y: 184
+                    },
+                    {
+                        x: 'Ahmedabad',
+                        y: 55
+                    },
+                    {
+                        x: 'Bangaluru',
+                        y: 84
+                    },
+                    {
+                        x: 'Pune',
+                        y: 31
+                    },
+                    {
+                        x: 'Chennai',
+                        y: 70
+                    },
+                    {
+                        x: 'Jaipur',
+                        y: 30
+                    },
+                    {
+                        x: 'Surat',
+                        y: 44
+                    },
+                    {
+                        x: 'Hyderabad',
+                        y: 68
+                    },
+                    {
+                        x: 'Lucknow',
+                        y: 28
+                    },
+                    {
+                        x: 'Indore',
+                        y: 19
+                    },
+                    {
+                        x: 'Kanpur',
+                        y: 29
+                    }
+                ]
+            }
+        ],
+        legend: {
+            show: false
+        },
+        chart: {
+            height: 350,
+            type: 'treemap'
+        },
+        title: {
+            text: 'Basic Treemap'
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#treemap"), options);
+    chart.render();
+</script>
+
+<!-- temperature chart -->
+<script>
+    var options = {
+        chart: {
+            type: 'line',
+            height: 400,
+        },
+        title: {
+            text: 'Distribution of Electricity',
+            subtext: 'Fake Data'
+        },
+        tooltip: {
+            x: {
+                type: 'cross'
+            }
+        },
+        xaxis: {
+            type: 'category',
+            tickPlacement: 'on',
+            categories: [
+                '00:00', '01:15', '02:30', '03:45', '05:00', '06:15', '07:30',
+                '08:45', '10:00', '11:15', '12:30', '13:45', '15:00', '16:15',
+                '17:30', '18:45', '20:00', '21:15', '22:30', '23:45'
+            ]
+        },
+        yaxis: {
+            title: {
+                text: 'W'
+            },
+            labels: {
+                formatter: function (value) {
+                    return value + ' W';
+                }
+            }
+        },
+        series: [
+            {
+                name: 'Electricity',
+                data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390, 400, 500, 600, 750, 800, 700, 600, 400]
+            }
+        ],
+        annotations: {
+            xaxis: [
+                {
+                    x: '07:30',
+                    x2: '10:00',
+                    fillColor: 'rgba(255, 173, 177, 0.4)',
+                    borderColor: 'transparent',
+                    label: {
+                        borderColor: '#333',
+                        style: {
+                            fontSize: '12px',
+                            color: '#333',
+                            background: 'rgba(255, 173, 177, 0.4)',
+                        },
+                        text: 'Morning Peak'
+                    }
+                },
+                {
+                    x: '17:30',
+                    x2: '21:15',
+                    fillColor: 'rgba(255, 173, 177, 0.4)',
+                    borderColor: 'transparent',
+                    label: {
+                        borderColor: '#333',
+                        style: {
+                            fontSize: '12px',
+                            color: '#333',
+                            background: 'rgba(255, 173, 177, 0.4)',
+                        },
+                        text: 'Evening Peak'
+                    }
+                }
+            ]
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#tempgraph"), options);
+    chart.render();
+
+</script>
+
+<!-- temperature echart graph -->
+<script>
+    // 初始化图表实例
+    var chart = echarts.init(document.getElementById('tempgraph2'));
+    var jsondata = {
+        "status": "OK",
+        "message": "[INFO] Connect Survival.",
+        "data": {
+            "eqp_id": "FKSOVN30",
+            "return_len": 13,
+            "return_list": [{
+                "FAB": "L8B",
+                "LINE_ID": "FKS30",
+                "MES_ID": "POWER_METER",
+                "REPORT_TIME": "2023-08-11 13:35:22.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "IDLE",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "662175.09",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4418484.72",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "649070.74",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2850489.43"
+            }, {
+                "FAB": "L8B",
+                "LINE_ID": "FKS30",
+                "MES_ID": "POWER_METER",
+                "REPORT_TIME": "2023-08-11 13:35:22.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "IDLE",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "662175.09",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4418484.72",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "649070.74",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2850489.43"
+            }, {
+                "FAB": "L8B",
+                "LINE_ID": "FKS30",
+                "MES_ID": "POWER_METER",
+                "REPORT_TIME": "2023-08-11 13:41:01.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "IDLE",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "662176.40",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4418494.81",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "649072.05",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2850497.63"
+            }, {
+                "FAB": "L8B",
+                "LINE_ID": "FKS30",
+                "MES_ID": "POWER_METER",
+                "REPORT_TIME": "2023-08-11 13:46:27.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "IDLE",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "662177.70",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4418504.28",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "649073.38",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2850504.26"
+            }, {
+                "FAB": "L8B",
+                "LINE_ID": "FKS30",
+                "MES_ID": "POWER_METER",
+                "REPORT_TIME": "2023-08-11 13:41:01.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "IDLE",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "662176.40",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4418494.81",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "649072.05",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2850497.63"
+            }, {
+                "FAB": "L8B",
+                "LINE_ID": "FKS30",
+                "MES_ID": "POWER_METER",
+                "REPORT_TIME": "2023-08-11 13:46:27.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "IDLE",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "662177.70",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4418504.28",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "649073.38",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2850504.26"
+            }, {
+                "ABBR_NO": "",
+                "ACTUAL_RECIPE": "048",
+                "AVERAGEENERGY-(COOLER RACK)": "",
+                "AVERAGEENERGY-(OVEN1 RACK)": "",
+                "AVERAGEENERGY-(OVEN2 RACK)": "",
+                "AVERAGEENERGY-AVR ROBOT": "",
+                "AVERAGEENERGY-MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #1 HEATER": "",
+                "AVERAGEENERGY-OVEN #1 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #2 HEATER": "",
+                "AVERAGEENERGY-OVEN #2 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN#1 DRIVER": "",
+                "AVERAGEENERGY-OVEN#1 HEATER": "",
+                "AVERAGEENERGY-OVEN#2 DRIVER": "",
+                "AVERAGEENERGY-OVEN#2 HEATER": "",
+                "CST_ID": "",
+                "FAB": "L8B",
+                "LAYER": "",
+                "LINE_ID": "FKS30",
+                "LOGON_TIME": "",
+                "LOT_ID": "",
+                "LOT_RUN_ID": "",
+                "MAIN_ROUTE_ID": "",
+                "MAIN_ROUTE_VER": "",
+                "MES_ID": "POWER_METER",
+                "MODEL_CAT": "",
+                "MODEL_NO": "V430QVNC3_V430QN3C5A01",
+                "OPERATION_ID": "PS",
+                "OPERATION_SEQ": "",
+                "OPERATION_VER": "",
+                "PRODUCT_CODE": "T430QVN03",
+                "REPORT_TIME": "2023-08-10 17:40:34.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "RUN",
+                "TOOL_STATUS_ID": "-2",
+                "TOTALREALENERGY-(COOLER RACK)": "",
+                "TOTALREALENERGY-(COOLER RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN1 RACK)": "",
+                "TOTALREALENERGY-(OVEN1 RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN2 RACK)": "",
+                "TOTALREALENERGY-(OVEN2 RACK)_CURRENT": "",
+                "TOTALREALENERGY-AVR ROBOT": "102351.63",
+                "TOTALREALENERGY-AVR ROBOT_CURRENT": "",
+                "TOTALREALENERGY-MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #1 HEATER": "",
+                "TOTALREALENERGY-OVEN #1 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #2 HEATER": "",
+                "TOTALREALENERGY-OVEN #2 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "661858.27",
+                "TOTALREALENERGY-OVEN#1 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4416318.03",
+                "TOTALREALENERGY-OVEN#1 HEATER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "648755.66",
+                "TOTALREALENERGY-OVEN#2 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2848324.81",
+                "TOTALREALENERGY-OVEN#2 HEATER_CURRENT": "",
+                "TOTALREALPOWER-(COOLER RACK)": "",
+                "TOTALREALPOWER-(OVEN1 RACK)": "",
+                "TOTALREALPOWER-(OVEN2 RACK)": "",
+                "TOTALREALPOWER-AVR ROBOT": "01.83",
+                "TOTALREALPOWER-MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #1 HEATER": "",
+                "TOTALREALPOWER-OVEN #1 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #2 HEATER": "",
+                "TOTALREALPOWER-OVEN #2 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN#1 DRIVER": "09.42",
+                "TOTALREALPOWER-OVEN#1 HEATER": "81.96",
+                "TOTALREALPOWER-OVEN#2 DRIVER": "10.77",
+                "TOTALREALPOWER-OVEN#2 HEATER": "90.32"
+            }, {
+                "ABBR_NO": "",
+                "ACTUAL_RECIPE": "048",
+                "AVERAGEENERGY-(COOLER RACK)": "",
+                "AVERAGEENERGY-(OVEN1 RACK)": "",
+                "AVERAGEENERGY-(OVEN2 RACK)": "",
+                "AVERAGEENERGY-AVR ROBOT": "",
+                "AVERAGEENERGY-MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #1 HEATER": "",
+                "AVERAGEENERGY-OVEN #1 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #2 HEATER": "",
+                "AVERAGEENERGY-OVEN #2 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN#1 DRIVER": "",
+                "AVERAGEENERGY-OVEN#1 HEATER": "",
+                "AVERAGEENERGY-OVEN#2 DRIVER": "",
+                "AVERAGEENERGY-OVEN#2 HEATER": "",
+                "CST_ID": "",
+                "FAB": "L8B",
+                "LAYER": "",
+                "LINE_ID": "FKS30",
+                "LOGON_TIME": "",
+                "LOT_ID": "",
+                "LOT_RUN_ID": "",
+                "MAIN_ROUTE_ID": "",
+                "MAIN_ROUTE_VER": "",
+                "MES_ID": "POWER_METER",
+                "MODEL_CAT": "",
+                "MODEL_NO": "V430QVNC3_V430QN3C5A01",
+                "OPERATION_ID": "PS",
+                "OPERATION_SEQ": "",
+                "OPERATION_VER": "",
+                "PRODUCT_CODE": "T430QVN03",
+                "REPORT_TIME": "2023-08-10 17:46:30.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "RUN",
+                "TOOL_STATUS_ID": "-2",
+                "TOTALREALENERGY-(COOLER RACK)": "",
+                "TOTALREALENERGY-(COOLER RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN1 RACK)": "",
+                "TOTALREALENERGY-(OVEN1 RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN2 RACK)": "",
+                "TOTALREALENERGY-(OVEN2 RACK)_CURRENT": "",
+                "TOTALREALENERGY-AVR ROBOT": "102351.78",
+                "TOTALREALENERGY-AVR ROBOT_CURRENT": "",
+                "TOTALREALENERGY-MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #1 HEATER": "",
+                "TOTALREALENERGY-OVEN #1 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #2 HEATER": "",
+                "TOTALREALENERGY-OVEN #2 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "661858.93",
+                "TOTALREALENERGY-OVEN#1 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4416325.60",
+                "TOTALREALENERGY-OVEN#1 HEATER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "648756.35",
+                "TOTALREALENERGY-OVEN#2 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2848333.90",
+                "TOTALREALENERGY-OVEN#2 HEATER_CURRENT": "",
+                "TOTALREALPOWER-(COOLER RACK)": "",
+                "TOTALREALPOWER-(OVEN1 RACK)": "",
+                "TOTALREALPOWER-(OVEN2 RACK)": "",
+                "TOTALREALPOWER-AVR ROBOT": "01.83",
+                "TOTALREALPOWER-MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #1 HEATER": "",
+                "TOTALREALPOWER-OVEN #1 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #2 HEATER": "",
+                "TOTALREALPOWER-OVEN #2 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN#1 DRIVER": "06.34",
+                "TOTALREALPOWER-OVEN#1 HEATER": "98.57",
+                "TOTALREALPOWER-OVEN#2 DRIVER": "10.99",
+                "TOTALREALPOWER-OVEN#2 HEATER": "91.51"
+            }, {
+                "ABBR_NO": "",
+                "ACTUAL_RECIPE": "048",
+                "AVERAGEENERGY-(COOLER RACK)": "",
+                "AVERAGEENERGY-(OVEN1 RACK)": "",
+                "AVERAGEENERGY-(OVEN2 RACK)": "",
+                "AVERAGEENERGY-AVR ROBOT": "",
+                "AVERAGEENERGY-MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #1 HEATER": "",
+                "AVERAGEENERGY-OVEN #1 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #2 HEATER": "",
+                "AVERAGEENERGY-OVEN #2 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN#1 DRIVER": "",
+                "AVERAGEENERGY-OVEN#1 HEATER": "",
+                "AVERAGEENERGY-OVEN#2 DRIVER": "",
+                "AVERAGEENERGY-OVEN#2 HEATER": "",
+                "CST_ID": "",
+                "FAB": "L8B",
+                "LAYER": "",
+                "LINE_ID": "FKS30",
+                "LOGON_TIME": "",
+                "LOT_ID": "",
+                "LOT_RUN_ID": "",
+                "MAIN_ROUTE_ID": "",
+                "MAIN_ROUTE_VER": "",
+                "MES_ID": "POWER_METER",
+                "MODEL_CAT": "",
+                "MODEL_NO": "V430QVNC3_V430QN3C5A01",
+                "OPERATION_ID": "PS",
+                "OPERATION_SEQ": "",
+                "OPERATION_VER": "",
+                "PRODUCT_CODE": "T430QVN03",
+                "REPORT_TIME": "2023-08-10 17:51:15.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "RUN",
+                "TOOL_STATUS_ID": "-2",
+                "TOTALREALENERGY-(COOLER RACK)": "",
+                "TOTALREALENERGY-(COOLER RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN1 RACK)": "",
+                "TOTALREALENERGY-(OVEN1 RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN2 RACK)": "",
+                "TOTALREALENERGY-(OVEN2 RACK)_CURRENT": "",
+                "TOTALREALENERGY-AVR ROBOT": "102351.94",
+                "TOTALREALENERGY-AVR ROBOT_CURRENT": "",
+                "TOTALREALENERGY-MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #1 HEATER": "",
+                "TOTALREALENERGY-OVEN #1 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #2 HEATER": "",
+                "TOTALREALENERGY-OVEN #2 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "661859.59",
+                "TOTALREALENERGY-OVEN#1 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4416332.47",
+                "TOTALREALENERGY-OVEN#1 HEATER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "648757.05",
+                "TOTALREALENERGY-OVEN#2 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2848342.00",
+                "TOTALREALENERGY-OVEN#2 HEATER_CURRENT": "",
+                "TOTALREALPOWER-(COOLER RACK)": "",
+                "TOTALREALPOWER-(OVEN1 RACK)": "",
+                "TOTALREALPOWER-(OVEN2 RACK)": "",
+                "TOTALREALPOWER-AVR ROBOT": "01.80",
+                "TOTALREALPOWER-MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #1 HEATER": "",
+                "TOTALREALPOWER-OVEN #1 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #2 HEATER": "",
+                "TOTALREALPOWER-OVEN #2 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN#1 DRIVER": "08.72",
+                "TOTALREALPOWER-OVEN#1 HEATER": "65.25",
+                "TOTALREALPOWER-OVEN#2 DRIVER": "10.92",
+                "TOTALREALPOWER-OVEN#2 HEATER": "91.85"
+            }, {
+                "ABBR_NO": "",
+                "ACTUAL_RECIPE": "048",
+                "AVERAGEENERGY-(COOLER RACK)": "",
+                "AVERAGEENERGY-(OVEN1 RACK)": "",
+                "AVERAGEENERGY-(OVEN2 RACK)": "",
+                "AVERAGEENERGY-AVR ROBOT": "",
+                "AVERAGEENERGY-MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #1 HEATER": "",
+                "AVERAGEENERGY-OVEN #1 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #2 HEATER": "",
+                "AVERAGEENERGY-OVEN #2 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN#1 DRIVER": "",
+                "AVERAGEENERGY-OVEN#1 HEATER": "",
+                "AVERAGEENERGY-OVEN#2 DRIVER": "",
+                "AVERAGEENERGY-OVEN#2 HEATER": "",
+                "CST_ID": "",
+                "FAB": "L8B",
+                "LAYER": "",
+                "LINE_ID": "FKS30",
+                "LOGON_TIME": "",
+                "LOT_ID": "",
+                "LOT_RUN_ID": "",
+                "MAIN_ROUTE_ID": "",
+                "MAIN_ROUTE_VER": "",
+                "MES_ID": "POWER_METER",
+                "MODEL_CAT": "",
+                "MODEL_NO": "V430QVNC3_V430QN3C5A01",
+                "OPERATION_ID": "PS",
+                "OPERATION_SEQ": "",
+                "OPERATION_VER": "",
+                "PRODUCT_CODE": "T430QVN03",
+                "REPORT_TIME": "2023-08-10 17:55:54.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "RUN",
+                "TOOL_STATUS_ID": "-2",
+                "TOTALREALENERGY-(COOLER RACK)": "",
+                "TOTALREALENERGY-(COOLER RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN1 RACK)": "",
+                "TOTALREALENERGY-(OVEN1 RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN2 RACK)": "",
+                "TOTALREALENERGY-(OVEN2 RACK)_CURRENT": "",
+                "TOTALREALENERGY-AVR ROBOT": "102352.09",
+                "TOTALREALENERGY-AVR ROBOT_CURRENT": "",
+                "TOTALREALENERGY-MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #1 HEATER": "",
+                "TOTALREALENERGY-OVEN #1 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #2 HEATER": "",
+                "TOTALREALENERGY-OVEN #2 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "661860.86",
+                "TOTALREALENERGY-OVEN#1 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4416337.45",
+                "TOTALREALENERGY-OVEN#1 HEATER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "648758.36",
+                "TOTALREALENERGY-OVEN#2 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2848348.40",
+                "TOTALREALENERGY-OVEN#2 HEATER_CURRENT": "",
+                "TOTALREALPOWER-(COOLER RACK)": "",
+                "TOTALREALPOWER-(OVEN1 RACK)": "",
+                "TOTALREALPOWER-(OVEN2 RACK)": "",
+                "TOTALREALPOWER-AVR ROBOT": "01.83",
+                "TOTALREALPOWER-MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #1 HEATER": "",
+                "TOTALREALPOWER-OVEN #1 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #2 HEATER": "",
+                "TOTALREALPOWER-OVEN #2 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN#1 DRIVER": "16.47",
+                "TOTALREALPOWER-OVEN#1 HEATER": "147.54",
+                "TOTALREALPOWER-OVEN#2 DRIVER": "14.22",
+                "TOTALREALPOWER-OVEN#2 HEATER": "218.96"
+            }, {
+                "ABBR_NO": "",
+                "ACTUAL_RECIPE": "048",
+                "AVERAGEENERGY-(COOLER RACK)": "",
+                "AVERAGEENERGY-(OVEN1 RACK)": "",
+                "AVERAGEENERGY-(OVEN2 RACK)": "",
+                "AVERAGEENERGY-AVR ROBOT": "",
+                "AVERAGEENERGY-MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #1 HEATER": "",
+                "AVERAGEENERGY-OVEN #1 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #2 HEATER": "",
+                "AVERAGEENERGY-OVEN #2 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN#1 DRIVER": "",
+                "AVERAGEENERGY-OVEN#1 HEATER": "",
+                "AVERAGEENERGY-OVEN#2 DRIVER": "",
+                "AVERAGEENERGY-OVEN#2 HEATER": "",
+                "CST_ID": "",
+                "FAB": "L8B",
+                "LAYER": "",
+                "LINE_ID": "FKS30",
+                "LOGON_TIME": "",
+                "LOT_ID": "",
+                "LOT_RUN_ID": "",
+                "MAIN_ROUTE_ID": "",
+                "MAIN_ROUTE_VER": "",
+                "MES_ID": "POWER_METER",
+                "MODEL_CAT": "",
+                "MODEL_NO": "V430QVNC3_V430QN3C5A01",
+                "OPERATION_ID": "PS",
+                "OPERATION_SEQ": "",
+                "OPERATION_VER": "",
+                "PRODUCT_CODE": "T430QVN03",
+                "REPORT_TIME": "2023-08-10 18:00:33.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "RUN",
+                "TOOL_STATUS_ID": "-2",
+                "TOTALREALENERGY-(COOLER RACK)": "",
+                "TOTALREALENERGY-(COOLER RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN1 RACK)": "",
+                "TOTALREALENERGY-(OVEN1 RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN2 RACK)": "",
+                "TOTALREALENERGY-(OVEN2 RACK)_CURRENT": "",
+                "TOTALREALENERGY-AVR ROBOT": "102352.24",
+                "TOTALREALENERGY-AVR ROBOT_CURRENT": "",
+                "TOTALREALENERGY-MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #1 HEATER": "",
+                "TOTALREALENERGY-OVEN #1 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #2 HEATER": "",
+                "TOTALREALENERGY-OVEN #2 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "661862.19",
+                "TOTALREALENERGY-OVEN#1 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4416349.21",
+                "TOTALREALENERGY-OVEN#1 HEATER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "648759.73",
+                "TOTALREALENERGY-OVEN#2 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2848362.62",
+                "TOTALREALENERGY-OVEN#2 HEATER_CURRENT": "",
+                "TOTALREALPOWER-(COOLER RACK)": "",
+                "TOTALREALPOWER-(OVEN1 RACK)": "",
+                "TOTALREALPOWER-(OVEN2 RACK)": "",
+                "TOTALREALPOWER-AVR ROBOT": "01.80",
+                "TOTALREALPOWER-MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #1 HEATER": "",
+                "TOTALREALPOWER-OVEN #1 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #2 HEATER": "",
+                "TOTALREALPOWER-OVEN #2 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN#1 DRIVER": "15.04",
+                "TOTALREALPOWER-OVEN#1 HEATER": "117.90",
+                "TOTALREALPOWER-OVEN#2 DRIVER": "17.21",
+                "TOTALREALPOWER-OVEN#2 HEATER": "162.33"
+            }, {
+                "ABBR_NO": "",
+                "ACTUAL_RECIPE": "048",
+                "AVERAGEENERGY-(COOLER RACK)": "",
+                "AVERAGEENERGY-(OVEN1 RACK)": "",
+                "AVERAGEENERGY-(OVEN2 RACK)": "",
+                "AVERAGEENERGY-AVR ROBOT": "",
+                "AVERAGEENERGY-MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #1 HEATER": "",
+                "AVERAGEENERGY-OVEN #1 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #2 HEATER": "",
+                "AVERAGEENERGY-OVEN #2 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN#1 DRIVER": "",
+                "AVERAGEENERGY-OVEN#1 HEATER": "",
+                "AVERAGEENERGY-OVEN#2 DRIVER": "",
+                "AVERAGEENERGY-OVEN#2 HEATER": "",
+                "CST_ID": "",
+                "FAB": "L8B",
+                "LAYER": "",
+                "LINE_ID": "FKS30",
+                "LOGON_TIME": "",
+                "LOT_ID": "",
+                "LOT_RUN_ID": "",
+                "MAIN_ROUTE_ID": "",
+                "MAIN_ROUTE_VER": "",
+                "MES_ID": "POWER_METER",
+                "MODEL_CAT": "",
+                "MODEL_NO": "V430QVNC3_V430QN3C5A01",
+                "OPERATION_ID": "PS",
+                "OPERATION_SEQ": "",
+                "OPERATION_VER": "",
+                "PRODUCT_CODE": "T430QVN03",
+                "REPORT_TIME": "2023-08-10 18:05:29.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "RUN",
+                "TOOL_STATUS_ID": "-2",
+                "TOTALREALENERGY-(COOLER RACK)": "",
+                "TOTALREALENERGY-(COOLER RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN1 RACK)": "",
+                "TOTALREALENERGY-(OVEN1 RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN2 RACK)": "",
+                "TOTALREALENERGY-(OVEN2 RACK)_CURRENT": "",
+                "TOTALREALENERGY-AVR ROBOT": "102352.40",
+                "TOTALREALENERGY-AVR ROBOT_CURRENT": "",
+                "TOTALREALENERGY-MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #1 HEATER": "",
+                "TOTALREALENERGY-OVEN #1 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #2 HEATER": "",
+                "TOTALREALENERGY-OVEN #2 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "661863.51",
+                "TOTALREALENERGY-OVEN#1 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4416356.27",
+                "TOTALREALENERGY-OVEN#1 HEATER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "648761.08",
+                "TOTALREALENERGY-OVEN#2 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2848371.42",
+                "TOTALREALENERGY-OVEN#2 HEATER_CURRENT": "",
+                "TOTALREALPOWER-(COOLER RACK)": "",
+                "TOTALREALPOWER-(OVEN1 RACK)": "",
+                "TOTALREALPOWER-(OVEN2 RACK)": "",
+                "TOTALREALPOWER-AVR ROBOT": "01.85",
+                "TOTALREALPOWER-MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #1 HEATER": "",
+                "TOTALREALPOWER-OVEN #1 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #2 HEATER": "",
+                "TOTALREALPOWER-OVEN #2 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN#1 DRIVER": "14.27",
+                "TOTALREALPOWER-OVEN#1 HEATER": "39.02",
+                "TOTALREALPOWER-OVEN#2 DRIVER": "16.48",
+                "TOTALREALPOWER-OVEN#2 HEATER": "68.31"
+            }, {
+                "ABBR_NO": "",
+                "ACTUAL_RECIPE": "048",
+                "AVERAGEENERGY-(COOLER RACK)": "",
+                "AVERAGEENERGY-(OVEN1 RACK)": "",
+                "AVERAGEENERGY-(OVEN2 RACK)": "",
+                "AVERAGEENERGY-AVR ROBOT": "",
+                "AVERAGEENERGY-MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #1 HEATER": "",
+                "AVERAGEENERGY-OVEN #1 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN #2 HEATER": "",
+                "AVERAGEENERGY-OVEN #2 MAIN POWER": "",
+                "AVERAGEENERGY-OVEN#1 DRIVER": "",
+                "AVERAGEENERGY-OVEN#1 HEATER": "",
+                "AVERAGEENERGY-OVEN#2 DRIVER": "",
+                "AVERAGEENERGY-OVEN#2 HEATER": "",
+                "CST_ID": "",
+                "FAB": "L8B",
+                "LAYER": "",
+                "LINE_ID": "FKS30",
+                "LOGON_TIME": "",
+                "LOT_ID": "",
+                "LOT_RUN_ID": "",
+                "MAIN_ROUTE_ID": "",
+                "MAIN_ROUTE_VER": "",
+                "MES_ID": "POWER_METER",
+                "MODEL_CAT": "",
+                "MODEL_NO": "V430QVNC3_V430QN3C5A01",
+                "OPERATION_ID": "PS",
+                "OPERATION_SEQ": "",
+                "OPERATION_VER": "",
+                "PRODUCT_CODE": "T430QVN03",
+                "REPORT_TIME": "2023-08-10 18:10:32.000000",
+                "RPT_UNIT": "T",
+                "SHEET_ID": "",
+                "STAGE": "CF",
+                "TOOL_ID": "FKSOVN30",
+                "TOOL_STATUS": "RUN",
+                "TOOL_STATUS_ID": "-2",
+                "TOTALREALENERGY-(COOLER RACK)": "",
+                "TOTALREALENERGY-(COOLER RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN1 RACK)": "",
+                "TOTALREALENERGY-(OVEN1 RACK)_CURRENT": "",
+                "TOTALREALENERGY-(OVEN2 RACK)": "",
+                "TOTALREALENERGY-(OVEN2 RACK)_CURRENT": "",
+                "TOTALREALENERGY-AVR ROBOT": "102352.55",
+                "TOTALREALENERGY-AVR ROBOT_CURRENT": "",
+                "TOTALREALENERGY-MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #1 HEATER": "",
+                "TOTALREALENERGY-OVEN #1 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN #2 HEATER": "",
+                "TOTALREALENERGY-OVEN #2 MAIN POWER": "",
+                "TOTALREALENERGY-OVEN#1 DRIVER": "661864.84",
+                "TOTALREALENERGY-OVEN#1 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#1 HEATER": "4416364.89",
+                "TOTALREALENERGY-OVEN#1 HEATER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 DRIVER": "648762.44",
+                "TOTALREALENERGY-OVEN#2 DRIVER_CURRENT": "",
+                "TOTALREALENERGY-OVEN#2 HEATER": "2848381.72",
+                "TOTALREALENERGY-OVEN#2 HEATER_CURRENT": "",
+                "TOTALREALPOWER-(COOLER RACK)": "",
+                "TOTALREALPOWER-(OVEN1 RACK)": "",
+                "TOTALREALPOWER-(OVEN2 RACK)": "",
+                "TOTALREALPOWER-AVR ROBOT": "01.83",
+                "TOTALREALPOWER-MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #1 HEATER": "",
+                "TOTALREALPOWER-OVEN #1 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN #2 HEATER": "",
+                "TOTALREALPOWER-OVEN #2 MAIN POWER": "",
+                "TOTALREALPOWER-OVEN#1 DRIVER": "13.68",
+                "TOTALREALPOWER-OVEN#1 HEATER": "136.26",
+                "TOTALREALPOWER-OVEN#2 DRIVER": "17.74",
+                "TOTALREALPOWER-OVEN#2 HEATER": "89.16"
+            }]
+        }
+    };
+
+
+    // 配置项
+    var option = {
+        title: {
+            text: 'Distribution of Electricity',
+            subtext: 'Fake Data'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['00:00', '01:15', '02:30', '03:45', '05:00', '06:15', '07:30', '08:45', '10:00', '11:15', '12:30', '13:45', '15:00', '16:15', '17:30', '18:45', '20:00', '21:15', '22:30', '23:45']
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} W'
+            },
+            axisPointer: {
+                snap: true
+            }
+        },
+        visualMap: {
+            show: false,
+            dimension: 0,
+            pieces: [
+                {
+                    lte: 6,
+                    color: 'green'
+                },
+                {
+                    gt: 6,
+                    lte: 8,
+                    color: 'red'
+                },
+                {
+                    gt: 8,
+                    lte: 14,
+                    color: 'green'
+                },
+                {
+                    gt: 14,
+                    lte: 17,
+                    color: 'red'
+                },
+                {
+                    gt: 17,
+                    color: 'green'
+                }
+            ]
+        },
+        series: [
+            {
+                name: 'Electricity',
+                type: 'line',
+                smooth: true,
+                // prettier-ignore
+                data: [300, 456, 45, 45, 77, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390, 400, 500, 600, 750, 800, 700, 600, 400],
+                markArea: {
+                    itemStyle: {
+                        color: 'rgba(255, 173, 177, 0.4)'
+                    },
+                    data: [
+                        [
+                            {
+                                name: 'Morning Peak',
+                                xAxis: '07:30'
+                            },
+                            {
+                                xAxis: '10:00'
+                            }
+                        ],
+                        [
+                            {
+                                name: 'Evening Peak',
+                                xAxis: '17:30'
+                            },
+                            {
+                                xAxis: '21:15'
+                            }
+                        ]
+                    ]
+                }
+            }
+        ]
+    };
+
+    // 使用配置项渲染图表
+    chart.setOption(option);
+</script>
+
+<!-- 半圓 -->
+<script>
+    var options1 = {
+        series: [61],
+        chart: {
+            type: "radialBar",
+            sparkline: {
+                enabled: true,
+            },
+            height: "150%",
+            offsetX: 50,
+        },
+        plotOptions: {
+            radialBar: {
+                startAngle: 180,
+                endAngle: 0,
+                track: {
+                    background: "#e7e7e7",
+                    strokeWidth: "97%",
+                    margin: 5, // margin is in pixels
+                    dropShadow: {
+                        enabled: true,
+                        top: 2,
+                        left: 0,
+                        color: "#999",
+                        opacity: 1,
+                        blur: 2,
+                    },
+                },
+                dataLabels: {
+                    name: {
+                        show: false,
+                    },
+                    value: {
+                        color: "#004E81",
+                        offsetX: -10,
+                        offsetY: 10,
+                        fontSize: "120%",
+                    },
+                },
+            },
+        },
+        grid: {
+            padding: {
+                // top: 10,
+                // bottom: 10,
+                // left: 10,
+            },
+        },
+        fill: {
+            type: "gradient",
+            gradient: {
+                inverseColors: false,
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 50, 53, 91],
+            },
+        },
+        labels: ["Average Results"],
+    };
+
+    var glass_ovn1 = new ApexCharts(
+        document.querySelector("#glass_oven1"),
+        options1
+    );
+    glass_ovn1.render();
+</script>
+
+<!-- enough -->
+<script>
+    var OV1 = echarts.init(document.getElementById("OVO"), null, {
+        height: 180,
+    });
+    window.addEventListener("resize", function () {
+        OV1.resize();
+    });
+    var Dvalue = 40; // in oven value
+
+    var option = {
+
+        grid: {
+            left: 50,
+            // height: "50%",
+            // x: 12,
+            // y: 45,
+            // x2: 5,
+            // y2: 25,
+            // borderWidth: 1,
+        },
+        series: [
+            {
+                type: 'gauge',
+                startAngle: 270,
+                center: ['60%', '50%'],
+                endAngle: 90,
+                min: 0,
+                max: 42,
+                radius: 80,
+                splitNumber: 2,
+
+                axisLine: {
+                    lineStyle: {
+                        width: 22,
+                        color: [[1, '#9D9D9D']]
+                    }
+                },
+
+                progress: {
+                    show: true,
+                    width: 22,
+                    itemStyle: {
+                        color: {
+                            type: 'linear', // 使用漸變填充
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [
+                                { offset: 0, color: '#75A1C1' }, // 漸變的起始顏色
+                                // { offset: 0.5, color: 'rgba(255, 0, 0, 1)' }, // 中間顏色
+                                { offset: 1, color: '#004E81' } // 漸變的結束顏色
+                            ],
+                            global: false // 非全局漸變，可以根據需要調整
+                        }
+                    }
+                },
+
+                pointer: {
+                    show: false
+                },
+
+                axisTick: {
+                    show: false
+                },
+
+                splitLine: {
+                    show: false
+                },
+
+                anchor: {
+                    show: false
+                },
+
+                title: {
+                    show: false
+                },
+
+                axisLabel: {
+                    show: false
+                },
+
+                // Detail option 在圖表中間顯示 Dvalue
+                detail: {
+                    show: true,
+                    offsetCenter: [0, 0], // Position detail value in center of the chart
+                    fontSize: 30,
+                    formatter: function () {
+                        return Dvalue; // Return current value of Dvalue
+                    }
+                },
+
+                data: [{
+                    value: Dvalue,
+                    name: '',
+                }]
+            }
+        ]
+    };
+    // set options
+    OV1.setOption(option);
+</script>
+
+<!-- image flip -->
+<script>
+    /* Demo purposes only */
+    $(".hover").mouseleave(
+        function () {
+            $(this).removeClass("hover");
+        }
+    );
+</script>
+
+<!-- JS 引入 -->
+<!-- <script src="{% static 'js/jquery.min.js' %}"></script> -->
+{% endblock js%}

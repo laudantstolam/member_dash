@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block template %}
+{% load static%}
+<link rel="stylesheet" href="{% static 'css/sketch.css' %}">
+<title>Sketch</title>
+<!-- <div>THIS IS SKETCH PAGE</div> -->
+
+<div class="row">
+    <figure class="snip1321 hover"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample26.jpg"
+            alt="sq-sample26" />
+        <figcaption>
+            <h4>Inverness </h4>
+            <h2>McKenzie</h2>
+        </figcaption><a href="#"></a>
+    </figure>
+    <figure class="snip1321"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample27.jpg"
+            alt="sq-sample27" />
+        <figcaption>
+            <h4>Ruby </h4>
+            <h2>Von Rails </h2>
+        </figcaption><a href="#"></a>
+    </figure>
+    <figure class="snip1321"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample28.jpg"
+            alt="sq-sample28" />
+        <figcaption>
+            <h4>Quiche </h4>
+            <h2>Hollandaise</h2>
+        </figcaption><a href="#"></a>
+    </figure>
+</div>
+
+<!-- image flip -->
+<script>
+    /* Demo purposes only */
+    $(".hover").mouseleave(
+        function () {
+            $(this).removeClass("hover");
+        }
+    );
+</script>
+{% endblock %}
