@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'DefaultApp',
     'Sketch.apps.SketchConfig',
     # 'Sketch'
+    'Audio.apps.AudioConfig',
+    # 'Audio'
+
 ]
 
 MIDDLEWARE = [
@@ -130,4 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # 第一个路径，通常是项目根目录下的 'static' 目录
     os.path.join(BASE_DIR, 'Sketch/static'),  # 用您的app名称替换'myapp'
+    os.path.join(BASE_DIR, 'Audio/static'),  # 用您的app名称替换'myapp'
+
 ]

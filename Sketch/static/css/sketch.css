@@ -84,4 +84,8 @@ figure.snip1321 {
     transform: rotateX(0);
     opacity: 0.9;
   }
+
+  .twitter-tweet twitter-tweet-rendered{
+    display:none;
+  }
   

@@ -32,16 +32,18 @@
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <!-- 引入專屬CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}">
-
+    <link rel="shortcut icon" type="img/ico" href="{% static 'img/favicon.ico' %}">
 </head>
 
 <body style="height: 100%;margin: 0;padding: 0;display: flex;flex-direction: column;">
-    <div class="row mb-5" id="content">
+    <div class="row mb-5"></div>
+    <div class="row mt-4 mb-5" id="content">
         <div class="col-2"></div>
-        <div class="col-9">
+        <div class="col-8">
             {% block template %}
             {% endblock %}
         </div>
+        <div class="col-2"></div>
     </div>
     <footer style="position: relative; bottom: 0; width: 100%;">
         <div class="row d-flex align-items-center justify-content-center">
@@ -74,9 +76,16 @@
                             <p>Sketch</p>
                         </a>
                     </div>
-                    <div class="col-3 buttonA">
+                    <!-- <div class="col-3 buttonA">
                         <i class="bi bi-file-earmark-music-fill"></i>
                         <p>Audio</p>
+                    </div> -->
+                    <div class="col-3">
+                        <a class="buttonA" id="audioButton" href="{% url 'audio' %}"
+                            style="text-decoration: none; cursor: pointer; color: black;">
+                            <i class="bi bi-file-earmark-music-fill"></i>
+                            <p>Audio</p>
+                        </a>
                     </div>
                 </div>
             </div>
