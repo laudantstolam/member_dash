@@ -6,6 +6,12 @@
 <!-- <script src="{% static 'js/display.js' %}"></script> -->
 <title>Audio</title>
 <!-- <div>THIS IS SKETCH PAGE</div> -->
-
+<!-- <audio controls>
+    <source src="https://raw.githubusercontent.com/Ash0645/image_remote/main/202405051240071.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio> -->
+{% for item in data %}
+<li>{{ item.post_time }} - {{ item.post_text }} - <a href="{{ item.image_link }}">查看图片</a></li>
+{% endfor %}
 THIS IS AUDIO
 {% endblock %}

@@ -9,4 +9,5 @@ urlpatterns = [
     path('',views1.home, name="home"),
     path('sketch/', sketchview.sketch, name="sketch"),
     path('audio/', audioview.audio, name="audio"),
+    path('audio/test', audioview.load_data, name="DATA")
 ]

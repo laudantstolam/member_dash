@@ -1,3 +1,7 @@
 from django.db import models
+from db_connection import db
 
-# Create your models here.
+
+# table name
+db_table = db['audio_collection']
+
